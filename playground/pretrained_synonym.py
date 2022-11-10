@@ -35,6 +35,9 @@ class PretrainedEmbedding(object):
         top_nearest = nearest[:n]
         return top_nearest
         
+    def _get_vector_dim(self):
+        return len(self.embedded_dict[next(iter(self.embedded_dict))])
+
 
     def get_word_vector(self, word): 
         """ 
@@ -60,7 +63,29 @@ class PretrainedEmbedding(object):
         plt.title("TSNE Word Embedding visualization")
         plt.show()
 
-        
+
+    def get_new_word_vect(self, words, ponderations): 
+        """ 
+        given words and ponderation, create new words: w'=p1w1+p2w2+...+pnwn
+        """
+        # check if words in dict
+        for word in words: 
+            if word not in self.embedded_dict.keys():
+                raise ValueError(f'the word {word} is not a key in the dict. please check')
+
+        # check if ponderation sum to 1
+        if sum(ponderations) != 1:
+            raise ValueError("the sum of ponderation should be 1. check")
+
+        # generate new vect
+        new_vect = np.zeros(self._get_vector_dim())
+        for word, ponderation in zip(words, ponderations):
+            vector = self.embedded_dict[word]
+            new_vect += ponderation * vector
+
+        return new_vect
+
+    
 
 
 #  -----------------------------------------------------------------------
@@ -78,13 +103,32 @@ def test_visualization():
     embedding = PretrainedEmbedding(embed_path)
     embedding.visualize()
     
+def test_get_vocab():
+    embed_path = 'datasets/glove.6B.50d.subset.txt' # head -n 1000 glove.6B.50d.txt > glove.6B.50d.txt
+    embedding = PretrainedEmbedding(embed_path)
+    print(embedding.get_vocab())
+    
+
+
+def test_get_new_word_vect():
+    embed_path = 'datasets/glove.6B.50d.subset.txt' # head -n 1000 glove.6B.50d.txt > glove.6B.50d.txt
+    embedding = PretrainedEmbedding(embed_path)
+    words = ['summer', 'tour', 'morning', 'championship']
+    ponderations = [0.3, 0.1, 0.5, 0.1]
+    new_vect = embedding.get_new_word_vect(words, ponderations)
+    nearest_words = embedding.find_similar_words(new_vect, 10)
+    print(nearest_words)
+
+
 
 #  -----------------------------------------------------------------------
 
 
 def main():
     #  test_find_similar_words()
-    test_visualization()
+    #  test_visualization()
+    #  test_get_vocab()
+    test_get_new_word_vect()
     
 
 
