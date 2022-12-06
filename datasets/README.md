@@ -12,6 +12,12 @@ Download the following word embedding insides the `datasets/embeddings/` folder.
 ## Datasets
 
 
+**TV Human Interaction**
+
+1. Download `tv_human_interactions_videos.tar.gz` and `tv_human_interactions_annotations.tar.gz` from [here](https://www.robots.ox.ac.uk/~alonso/tv_human_interactions.html)
+2. Unzip the files with `tar xvzf <file>.tar.gz`
+3. To get the filename and its label, run the script: `python3 videos/tv_human_interactions.py`
+
 
 # More Datasets
 
