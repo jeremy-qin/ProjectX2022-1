@@ -28,13 +28,11 @@ def generate_tv_human_interaction_df(videos_directory, df_path):
     # save dataset
     df.to_csv(df_path, index=False)
 
-
 #  -----------------------------------------------------------------------
 
 
 def main():
     generate_tv_human_interaction_df('/home/yukikongju/Downloads/tv_human_interactions_videos', 'datasets/videos/tv_human_interaction.csv')
-    
 
 
 #  -----------------------------------------------------------------------

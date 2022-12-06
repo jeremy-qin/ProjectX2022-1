@@ -2,29 +2,23 @@
 
 Exploring Human-Human Interaction
 
-**NLP**
+# ToDos
 
-- [X] new labels: pondérer chacun des mots: (w'=c1w1+c2w2+c3w3+c4w4)
-    - [X] regarder la distance entre mot original et nouveau mot et considérer 
-	  les mots dans le rayon
-    - [X] Test on pretrained datasets: 
-	  - [GloVe](https://github.com/stanfordnlp/GloVe)
-	  - [FastText](https://fasttext.cc/docs/en/english-vectors.html)
+- [X] NLP: find synonym using word embedding
+- [.] Load Datasets
+- [ ] Get videos features
+- [ ] Clusters videos features
+- [ ] Compare clusters with NLP
 
 
 ## Datasets used
 
-**Old**
-
 - [ ] [Pytorchvideo - Kinetics]
 - [ ] [Charades - ]
-- [ ] [H20 - Interaction](https://www.kaggle.com/datasets/angeliqueloesch/ho-interaction-dataset)
-
-**New**
-
-- [ ] [UT - Interaction]
+- [ ] [UT - Interaction](https://www.kaggle.com/duynm619/utinteraction)
 - [X] [Tv Human Interaction](https://www.robots.ox.ac.uk/~alonso/tv_human_interactions.html)
-- [ ] [Hollywood](https://www.di.ens.fr/~laptev/actions/hollywood2/)
+- [X] [Hollywood](https://www.di.ens.fr/~laptev/actions/hollywood2/)
+- [ ] [H20 - Interaction](https://www.kaggle.com/datasets/angeliqueloesch/ho-interaction-dataset)
 
 
 ## Limitations

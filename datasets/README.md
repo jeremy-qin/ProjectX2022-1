@@ -16,7 +16,21 @@ Download the following word embedding insides the `datasets/embeddings/` folder.
 
 1. Download `tv_human_interactions_videos.tar.gz` and `tv_human_interactions_annotations.tar.gz` from [here](https://www.robots.ox.ac.uk/~alonso/tv_human_interactions.html)
 2. Unzip the files with `tar xvzf <file>.tar.gz`
-3. To get the filename and its label, run the script: `python3 videos/tv_human_interactions.py`
+3. To get the dataframe with the filename and its label, run the script: `python3 videos/tv_human_interactions.py`
+
+TODO: video annotations (frame with the action), profile (front, behind, left, ..)
+
+**Hollywood Human Interaction (CVPR08)**
+
+1. Download `hollywood.tar.gz` from [here](https://www.di.ens.fr/~laptev/download.html#actionclassification). Annotations for this datasets can be found in this link
+2. Unzip tar file with `tar xvzf hollywood.tar.gz`
+3. To get the dataframe with the filename, label and frames , run the script: `python3 videos/hollywood.py`
+
+**UT - Interaction**
+
+
+TODO
+
 
 
 # More Datasets
