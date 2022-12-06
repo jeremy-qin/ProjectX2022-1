@@ -92,33 +92,32 @@ class PretrainedEmbedding(object):
 
 def test_find_similar_words():
     #  embed_path = 'datasets/glove.6B.50d.txt' # from https://github.com/stanfordnlp/GloVe
-    embed_path = 'datasets/glove.6B.50d.subset.txt' # head -n 1000 glove.6B.50d.txt > glove.6B.50d.txt
+    embed_path = 'datasets/embeddings/glove.6B.50d.subset.txt' # head -n 1000 glove.6B.50d.txt > glove.6B.50d.txt
     embedding = PretrainedEmbedding(embed_path)
     vector = embedding.get_word_vector('stage')
     nearest_words = embedding.find_similar_words(vector, 10)
     print(nearest_words)
 
 def test_visualization():
-    embed_path = 'datasets/glove.6B.50d.subset.txt' # head -n 1000 glove.6B.50d.txt > glove.6B.50d.txt
+    embed_path = 'datasets/embeddings/glove.6B.50d.subset.txt' # head -n 1000 glove.6B.50d.txt > glove.6B.50d.txt
     embedding = PretrainedEmbedding(embed_path)
     embedding.visualize()
     
 def test_get_vocab():
-    embed_path = 'datasets/glove.6B.50d.subset.txt' # head -n 1000 glove.6B.50d.txt > glove.6B.50d.txt
+    embed_path = 'datasets/embeddings/glove.6B.50d.subset.txt' # head -n 1000 glove.6B.50d.txt > glove.6B.50d.txt
     embedding = PretrainedEmbedding(embed_path)
     print(embedding.get_vocab())
     
 
 
 def test_get_new_word_vect():
-    embed_path = 'datasets/glove.6B.50d.subset.txt' # head -n 1000 glove.6B.50d.txt > glove.6B.50d.txt
+    embed_path = 'datasets/embeddings/glove.6B.50d.subset.txt' # head -n 1000 glove.6B.50d.txt > glove.6B.50d.txt
     embedding = PretrainedEmbedding(embed_path)
     words = ['summer', 'tour', 'morning', 'championship']
     ponderations = [0.3, 0.1, 0.5, 0.1]
     new_vect = embedding.get_new_word_vect(words, ponderations)
     nearest_words = embedding.find_similar_words(new_vect, 10)
     print(nearest_words)
-
 
 
 #  -----------------------------------------------------------------------

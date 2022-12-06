@@ -3,7 +3,7 @@
 
 **Project 1: Unify Datasets**
 
-1. [ ] Create Word Embedding / use pretrained word embedding
+1. [X] Create Word Embedding / use pretrained word embedding
 2. [ ] Encode Each sentence by keeping their most important word (using TF-IDF) et 
    ordonner les mots par ordre d'importance
 3. [ ] Créer un cluster des phrases similaires 
