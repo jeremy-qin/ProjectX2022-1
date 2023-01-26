@@ -80,4 +80,6 @@ class CNN_RNN_Model(nn.Module):
 
         out = self.dropout(out[:,-1])
 
-        return out 
+        return out
+
+

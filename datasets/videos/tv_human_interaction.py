@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 
+path = "/u/boumghak/ProjectX2022/"
 def generate_tv_human_interaction_df(videos_directory, df_path):
     """ 
     Generate dataframe with columns `filename` and `label` for TV Human 
@@ -28,11 +29,15 @@ def generate_tv_human_interaction_df(videos_directory, df_path):
     # save dataset
     df.to_csv(df_path, index=False)
 
+    return df
+
 #  -----------------------------------------------------------------------
 
 
 def main():
-    generate_tv_human_interaction_df('/home/yukikongju/Downloads/tv_human_interactions_videos', 'datasets/videos/tv_human_interaction.csv')
+    df = generate_tv_human_interaction_df(path + 'datasets/videos/tv_human_interactions_videos', path + 'datasets/videos/tv_human_interaction.csv')
+    pd.DataFrame.info(df)
+
 
 
 #  -----------------------------------------------------------------------
