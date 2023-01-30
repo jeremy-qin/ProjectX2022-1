@@ -6,22 +6,39 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torchvision import models
+from torchvision.models import ResNet50_Weights
 import numpy as np
 #CNN model
 import pytorchvideo.models.resnet
+from pytorchvideo.transforms import (
+    ApplyTransformToKey,
+    Normalize,
+    RandomShortSideScale,
+    RemoveKey,
+    ShortSideScale,
+    UniformTemporalSubsample
+)
+
+from torchvision.transforms import (
+    Compose,
+    Lambda,
+    RandomCrop,
+    RandomHorizontalFlip
+)
 
 class DatasetModule(pytorch_lightning.LightningDataModule):
 
     #Configuration of datasets
-    DATA_PATH = "C:\\Users\\jerem\\Documents\\CUCAI\\ProjectX2022\\datasets\\videos\\tv_human_interactions_videos"
-    CLIP_LENGTH = 10
+    DATA_PATH = "/u/qinjerem/Documents/ProjectX2022-1/datasets/videos/test/"
+    CLIP_LENGTH = 2
     BATCH_SIZE = 1
 
     def train_dataloader(self):
+
         train_data = pytorchvideo.data.labeled_video_dataset(
             data_path = self.DATA_PATH,
             # labeled_video_paths = os.path.join(self.DATA_PATH, "train"),
-            clip_sampler = pytorchvideo.data.make_clip_sampler("random", self.CLIP_LENGTH),
+            clip_sampler = pytorchvideo.data.make_clip_sampler("uniform", self.CLIP_LENGTH),
             decode_audio = False,
         )
 
@@ -52,6 +69,8 @@ class Identity(nn.Module):
     def forward(self, x):
         return x    
 
+
+batch_size = 1
 #Model
 class CNN_RNN_Model(pytorch_lightning.LightningModule):
     def __init__(self, params_model):
@@ -61,7 +80,7 @@ class CNN_RNN_Model(pytorch_lightning.LightningModule):
         rnn_hidden_size = params_model["rnn_hidden_size"]
         rnn_num_layers = params_model["rnn_num_layers"]
         
-        cnn_model = models.resnet50(pretrained=pretrained)
+        cnn_model = models.resnet50(weights=ResNet50_Weights.IMAGENET1K_V1)
         num_features = cnn_model.fc.in_features
         cnn_model.fc = Identity()
 
@@ -70,11 +89,12 @@ class CNN_RNN_Model(pytorch_lightning.LightningModule):
         self.rnn = nn.LSTM(num_features, rnn_hidden_size, rnn_num_layers)
 
     def forward(self, x):
-        b_z, c, ts, h, w = x.shape
+        b_z, ts, c, h, w = x.shape
         x = np.transpose(x, (0, 2, 1, 3, 4))
-        print(x.shape)
+        # print(x.shape)
         i = 0
-        print(x[:,i].shape)
+        # print(x[:,i].shape)
+    
         y = self.cnn_model((x[:,i]))
         output, (hn, cn) = self.rnn(y.unsqueeze(1))
 
@@ -86,17 +106,6 @@ class CNN_RNN_Model(pytorch_lightning.LightningModule):
 
         return out
 
-# def train(model, params):
-#     num_epochs=params["num_epochs"]
-#     loss_func=params["loss_func"]
-#     opt=params["optimizer"]
-#     train_dl=params["train_dl"]
-
-#     for epoch in range(num_epochs):
-#         model.train()
-
-#     return 
-
 
 def main():
     videos = DatasetModule()
@@ -105,12 +114,13 @@ def main():
         "dr_rate": 0.1,
         "pretrained" : True,
         "rnn_num_layers": 1,
-        "rnn_hidden_size": 100,}
+        "rnn_hidden_size": 10,}
 
     model = CNN_RNN_Model(params_model)
     train_dl = videos.train_dataloader()
     out = []
     for batch_idx, batch in enumerate(train_dl):
+        print(batch_idx)
         out.append(model(batch["video"]))
     print(out)
     print("Done")
