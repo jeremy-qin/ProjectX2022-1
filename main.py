@@ -76,7 +76,6 @@ class CNN_RNN_Model(pytorch_lightning.LightningModule):
     def __init__(self, params_model):
         super(CNN_RNN_Model, self).__init__()
         dr_rate= params_model["dr_rate"]
-        pretrained = params_model["pretrained"]
         rnn_hidden_size = params_model["rnn_hidden_size"]
         rnn_num_layers = params_model["rnn_num_layers"]
         
@@ -107,12 +106,11 @@ class CNN_RNN_Model(pytorch_lightning.LightningModule):
         return out
 
 
-def main():
+def extract():
     videos = DatasetModule()
 
     params_model={
         "dr_rate": 0.1,
-        "pretrained" : True,
         "rnn_num_layers": 1,
         "rnn_hidden_size": 10,}
 
@@ -124,5 +122,27 @@ def main():
         out.append(model(batch["video"]))
     print(out)
     print("Done")
+    return out
+
+def plot_2d(x, y):
+    import matplotlib.pyplot as plt
+    plt.scatter(x ,y)
+
+def dim_reduc():
+    from sklearn.decomposition import PCA
+    out = extract()
+    output = []
+    for i in out:
+        t = i[0].detach().numpy()
+        output.append(t)
+
+    output = np.array(output)
+    pca = PCA(n_components=2)
+    x_reduc = pca.fit_transform(output)
+    return x_reduc
+
+def main():
+    x = dim_reduc()
+    plot_2d(x[:,0], x[:, 1])
 
 main()
